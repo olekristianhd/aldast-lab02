@@ -7,6 +7,12 @@
  */
 package no.ntnu.idata2302.lab02;
 
+/**
+ * Represent an array.
+ *
+ * @author Ole Kristian Dvergsdal
+ * @version 1.0
+ */
 public class Sequence {
 
     private int capacity;
@@ -40,7 +46,7 @@ public class Sequence {
      * @param i the index that you want to return
      * @return element of a given index
      */
-    public int getIndexMyArray(int i) {
+    public int getElementFromIndex(int i) {
         return this.myArray[i];
     }
 
@@ -51,40 +57,55 @@ public class Sequence {
     public void updateArray(int[] intArray) {
         int i = 0;
         while (i < this.getLength()) {
-            intArray[i] = this.getIndexMyArray(i); i++;
+            intArray[i] = this.getElementFromIndex(i); i++;
         }
     }
 
     /**
-     * Add element to the array.
+     * Add element to the sequence.
      * @param element what element you want to add to the array.
      */
     public void insert ( int element) {
-        if (myArray.length == this.capacity) {
+        if (this.length == this.capacity) {
             this.capacity = this.capacity * 2;
-            if (length < this.capacity) {
-                length++;
-                int[] intArray = new int[this.getCapacity()];
-                this.updateArray(intArray);
-                intArray[this.getLength() - 1] = element;
-                myArray = intArray;
-            } else {
-                throw new IllegalArgumentException("Something whent wrong.");
-            }
         }
+        length++;
+        int[] intArray = new int[this.getCapacity()];
+        this.updateArray(intArray);
+        intArray[this.getLength() - 1] = element;
+        myArray = intArray;
     }
 
     /**
-     *
-     * @param index
-     * @param item
+     * Removes the last element from the sequence
      */
-    public void remove ( int index, int item){
-
+    public void delete (){
+        if(this.length <= (1/(4*capacity))) {
+            this.capacity = this.capacity/2;
+        }
+        int[] intArray = new int[this.getCapacity()];
+        this.updateArray(intArray);
+        intArray[this.getLength()-1] = 0;
+        if(this.length > 0) {
+            this.length --;
+        }
+        this.myArray = intArray;
     }
 
-    public void search ( int item){
-        // TODO
-    }
 
+    /**
+     * Returns the first index of a given item
+     * @param item the item you want to find the index of in the sequence
+     * @return index of the item in the sequence
+     */
+    public int search ( int item){
+        int index = -1;
+        for(int element : this.myArray) {
+            if(item == this.getElementFromIndex(element)) {
+                index = element;
+                break;
+            }
+        }
+        return index;
+    }
 }
